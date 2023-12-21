@@ -44,11 +44,13 @@ const NavBar = () => {
                       Client-side rendered page
                     </PageLink>
                   </NavItem>
+                  {user.stripe_plan === 'premium' && (
                   <NavItem>
                     <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
                       Server-side rendered page
                     </PageLink>
                   </NavItem>
+                  )}
                   <NavItem>
                     <PageLink href="/external" className="nav-link" testId="navbar-external">
                       External API
@@ -89,6 +91,11 @@ const NavBar = () => {
                     <DropdownItem className="dropdown-profile" tag="span">
                       <PageLink href="/profile" icon="user" testId="navbar-profile-desktop">
                         Profile
+                      </PageLink>
+                    </DropdownItem>
+                    <DropdownItem id="qsManagePlanBtn">
+                      <PageLink href="/api/billing" icon="user" testId="navbar-profile-desktop">
+                        { user.stripe_plan === 'premium' ? 'Manage plan' : 'Upgrade to premium'}
                       </PageLink>
                     </DropdownItem>
                     <DropdownItem id="qsLogoutBtn">
