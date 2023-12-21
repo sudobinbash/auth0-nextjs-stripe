@@ -31,6 +31,9 @@ function Profile() {
               <p className="lead text-muted" data-testid="profile-email">
                 {user.email}
               </p>
+              <p className="lead text-muted">
+                Plan: {user.stripe_plan} - {user.stripe_plan_status}
+              </p>
             </Col>
           </Row>
           <Row data-testid="profile-json">

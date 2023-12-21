@@ -1,11 +1,29 @@
-# Auth0 Next.js Samples
+# Auth0 Next.js Stripe
 
-[![CircleCI](https://img.shields.io/circleci/build/github/auth0-samples/auth0-nextjs-samples?style=flat-square)](https://circleci.com/gh/auth0-samples/auth0-nextjs-samples)
 [![License](https://img.shields.io/:license-mit-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-This is the sample code for the [Auth0 Next.js Quickstart](https://auth0.com/docs/quickstart/webapp/nextjs) using [nextjs-auth0](https://github.com/auth0/nextjs-auth0).
+This code expands on the Auth0 Next.js Quickstart by integrating the sample with Stripe subscriptions and portal. It uses the nextjs-auth0 library for authentication and provides an example of how to integrate the Auth0 Next.js SDK into your Next.js applications.
 
-Please check out [the sample application](./Sample-01) for an example of how to integrate the Auth0 Next.js SDK into your Next.js applications.
+For more information, please refer to the following resources:
+- Auth0 Next.js Quickstart: [Auth0 Next.js Quickstart](https://auth0.com/docs/quickstart/webapp/nextjs)
+- nextjs-auth0 library: [nextjs-auth0](https://github.com/auth0/nextjs-auth0)
+- Auth0 Actions for Stripe: [Actions](./Actions)
+- Sample application: [Sample-01](./Sample-01)
+
+
+## How Auth0 and Stripe works together?
+
+
+![How Auth0 and Stripe works](./auth0-stripe-how-it-works.png)
+
+With Auth0 actions, you can add custom logic (using NodeJS) to identity flows like sign up and login. 
+
+In this sample, whenever a user signs up and logs in via Auth0, an [Auth0 action](./Actions/stripe-sync.js) communicates with Stripe (using [Stripe's official node js library](https://www.npmjs.com/package/stripe)) to get the latest subscription status. The subscription status is then [sent to the sample app via id token](./Actions/stripe-sync.js#L72-L74) in JWT format.
+
+This example also demonstrates how you can take advantage of the subscription information using `@auth0/nextjs-auth0/client` to:
+- [show subscription info](./Sample-01/app/profile/page.jsx#L34-L36)
+- [restrict access to specific app routes](./Sample-01/components/NavBar.jsx#L47-L53) 
+- [create a session with Stripe Portal](./Sample-01/app/api/billing/route.js), so end users can manage their subscription without re-authenticating in Stripe
 
 ## What is Auth0?
 
@@ -22,15 +40,3 @@ Auth0 helps you to:
 
 1. Go to [Auth0](https://auth0.com) and click **Sign Up**.
 2. Use Google, GitHub, or Microsoft Account to login.
-
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/responsible-disclosure-policy) details the procedure for disclosing security issues.
-
-## Author
-
-[Auth0](https://auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more info.
