@@ -8,7 +8,7 @@ exports.onExecutePostLogin = async (event, api) => {
 
     //If user already has stripe_customer_id in Auth0, check the subscription status
     if(event.user.app_metadata.stripe_customer_id) {
-      await verifyStripeSubscription(api, stripe, event.user.app_metadata.stripe_customer_id);
+      await verifyStripeSubscription(event, api, stripe, event.user.app_metadata.stripe_customer_id);
       return;
     }
     
@@ -32,7 +32,7 @@ exports.onExecutePostLogin = async (event, api) => {
   }
 };
 
-async function verifyStripeSubscription(api, stripe, customerId) {
+async function verifyStripeSubscription(event, api, stripe, customerId) {
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
   });
@@ -56,7 +56,7 @@ async function createStripeCustomer(api, stripe, user) {
   });
 
   const subscription = await stripe.subscriptions.create({
-    customer: customerId,
+    customer: customer.id,
     items: [{ price: FREE_PLAN }],
   });
 
