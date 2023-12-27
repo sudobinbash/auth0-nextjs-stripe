@@ -2,9 +2,7 @@ import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { NextResponse } from 'next/server';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-/**
- * Creates a Stripe billing portal session for the user
- */
+// Creates a Stripe billing portal session for the user
 export const GET = withApiAuthRequired(async function handler(req, res) {
   try {
     const { user } = await getSession(req, res);
