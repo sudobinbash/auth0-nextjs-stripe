@@ -6,6 +6,9 @@ import Highlight from '../../components/Highlight';
 export default withPageAuthRequired(
   async function SSRPage() {
     const { user } = await getSession();
+    if(user.stripe_plan !== 'premium'){
+      return(<h1>Not Authorized</h1>)
+    }
     return (
       <>
         <div className="mb-5" data-testid="ssr">
